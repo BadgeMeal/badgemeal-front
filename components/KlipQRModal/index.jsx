@@ -5,6 +5,7 @@ import { ModalWrapper, ModalContents, QRCodeContainer } from './styles';
 import Logo_Klip from '@assets/logo_klip.svg';
 import QRCode from 'qrcode.react';
 import { KLIP_MODAL_DATA_KEY, useModalData } from '@data/modal';
+import KlipQr from '../constants/index';
 
 export default function KlipQRModal() {
   const { modalData, mutateModalData } = useModalData(KLIP_MODAL_DATA_KEY);

@@ -10,6 +10,8 @@ import VoteModal from '@components/VoteModal';
 import Header from '@components/Header';
 import Loading from '@components/Loading';
 import 'react-toastify/dist/ReactToastify.css';
+import Upload from '../components/UploadImage/index';
+import UploadImage from '../components/UploadImage/Upload';
 
 const Home = React.lazy(() => import('@pages/Home'));
 const RandomDraw = React.lazy(() => import('@pages/RandomDraw'));
@@ -32,6 +34,8 @@ const Router = () => {
           <Route path="/vote" element={<Vote />} />
           <Route path="/user" element={<User />} />
           <Route path="/*" element={<NotFound />} />
+          <Route path="/upload" element={<Upload />} />
+          <Route path="/uploadimage" element={<UploadImage />} />
         </Routes>
       </Suspense>
       <Navigation />
