@@ -3,12 +3,14 @@ import { Layout, Container, BoxUpload, ImagePreview } from './styles';
 import FolderIcon from '../../assets/folder_icon_transparent.png';
 import axios from 'axios';
 import { stepContentClasses } from '@mui/material';
+import { useWalletData } from '@data/wallet';
 
 function App() {
   const [image, setImage] = useState('');
   const [isUploaded, setIsUploaded] = useState(false);
   const [typeFile, setTypeFile] = useState('');
   const [content, setContent] = useState('');
+  const [walletData, mutateWalletData] = useWalletData();
 
   function handleImageChange(e) {
     if (e.target.files && e.target.files[0]) {
@@ -24,23 +26,24 @@ function App() {
     }
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('img', content);
+    formData.append('address', walletData.account);
+    formData.append('image', content);
 
-    axios
-      .post('http://tostit.i234.me:5005/api/verify/receipt', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const response = await axios.post('http://tostit.i234.me:5005/api/verify/receipt', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(response);
+    // .then((res) => {
+    //   console.log(res);
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
   };
 
   return (
