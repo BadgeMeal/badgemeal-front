@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Layout, Container, BoxUpload, ImagePreview } from './styles';
 import FolderIcon from '../../assets/folder_icon_transparent.png';
+import axios from 'axios';
+import { stepContentClasses } from '@mui/material';
 
 function App() {
   const [image, setImage] = useState('');
   const [isUploaded, setIsUploaded] = useState(false);
   const [typeFile, setTypeFile] = useState('');
+  const [content, setContent] = useState('');
 
   function handleImageChange(e) {
     if (e.target.files && e.target.files[0]) {
@@ -21,6 +24,25 @@ function App() {
     }
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('img', content);
+
+    axios
+      .post('http://tostit.i234.me:5005/api/verify/receipt', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <Layout>
       <Container>
@@ -34,24 +56,10 @@ function App() {
                   <p style={{ color: '#444' }}>Click to upload image</p>
                 </label>
 
-                <input
-                  id="upload-input"
-                  type="file"
-                  accept=".jpg,.jpeg,.gif,.png,.mov,.mp4"
-                  onChange={handleImageChange}
-                />
+                <input id="upload-input" type="file" accept=".jpg,.jpeg,.gif,.png" onChange={handleImageChange} />
               </>
             ) : (
               <ImagePreview>
-                <img
-                  className="close-icon"
-                  src={FolderIcon}
-                  alt="CloseIcon"
-                  onClick={() => {
-                    setIsUploaded(false);
-                    setImage(null);
-                  }}
-                />
                 {typeFile.includes('video') ? (
                   <video id="uploaded-image" src={image} draggable={false} controls autoPlay alt="uploaded-img" />
                 ) : (
@@ -63,6 +71,9 @@ function App() {
         </BoxUpload>
 
         {isUploaded ? <h2>Type is {typeFile}</h2> : null}
+        <button type="button" onClick={onSubmit}>
+          전송
+        </button>
       </Container>
     </Layout>
   );

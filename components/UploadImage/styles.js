@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Layout = styled.div`
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   display: grid;
   place-items: center;
