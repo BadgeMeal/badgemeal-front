@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Container, BoxUpload, ImagePreview } from './styles';
 import FolderIcon from '../../assets/folder_icon_transparent.png';
 import axios from 'axios';
@@ -11,6 +11,7 @@ function App() {
   const [typeFile, setTypeFile] = useState('');
   const [content, setContent] = useState('');
   const [walletData, mutateWalletData] = useWalletData();
+  const [menuNo, setMenuNo] = useState();
 
   function handleImageChange(e) {
     if (e.target.files && e.target.files[0]) {
@@ -25,6 +26,21 @@ function App() {
       reader.readAsDataURL(e.target.files[0]);
     }
   }
+
+  useEffect(() => {
+    const fetchUserMenu = async () => {
+      await axios({
+        method: 'get',
+        url: 'http://tostit.i234.me:5005/api/draw/menuNo',
+      })
+        .then((res) => {
+          // console.log(res.data);
+          setMenuNo(res);
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchUserMenu();
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
