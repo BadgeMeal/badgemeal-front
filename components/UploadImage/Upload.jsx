@@ -47,6 +47,7 @@ function App() {
     const formData = new FormData();
     formData.append('address', walletData.account);
     formData.append('image', content);
+    formData.append('menuNo', menuNo);
 
     const response = await axios.post('http://tostit.i234.me:5005/api/verify/receipt', formData, {
       headers: {
