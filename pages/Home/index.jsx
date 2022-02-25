@@ -10,6 +10,7 @@ import Sushi from '@assets/img_sushi.jpg';
 import { HomeContainer } from './styles';
 
 function Home() {
+  console.log("test : " + process.env.REACT_APP_NFT_CONTRACT_ADDRESS);
   return (
     <HomeContainer>
       <h1>Discover Menu</h1>
